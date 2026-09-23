@@ -8,7 +8,7 @@
 // purchase flow uses, so the outcome is handled identically either way.
 
 const { db } = require("./db");
-const vtuProvider = require("./providers/vtuProvider");
+const vtuProvider = require("./vtuProvider");
 const { settleTransaction } = require("./purchaseEngine");
 
 // Stop asking forever — after this many failed check-ins, leave it pending
