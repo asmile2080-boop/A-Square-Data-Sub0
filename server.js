@@ -585,10 +585,6 @@ async function handleGetTransactions(req, res, userId, url) {
   sendJson(res, 200, { transactions });
 }
 
-// Simple health endpoint for hosting providers and uptime checks.
-if (req.method === "GET" && pathname === "/health") {
-      return sendJson(res, 200, { ok: true, service: "a-square-data-sub" });
-    }
 
     // ---------- static frontend ----------
 // Serves the plain HTML/JS app in ./public at the same origin as the API,
@@ -622,7 +618,10 @@ const server = http.createServer(async (req, res) => {
   const { pathname } = url;
 
   try {
-    if (req.method === "POST" && pathname === "/api/auth/register") {
+    if (if (req.method === "GET" && pathname === "/health") {
+  return sendJson(res, 200, { ok: true, service: "a-square-data-sub" });
+}
+req.method === "POST" && pathname === "/api/auth/register") {
       return await handleRegister(req, res);
     }
     if (req.method === "POST" && pathname === "/api/auth/login") {
