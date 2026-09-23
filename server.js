@@ -618,10 +618,10 @@ const server = http.createServer(async (req, res) => {
   const { pathname } = url;
 
   try {
-    if (if (req.method === "GET" && pathname === "/health") {
-  return sendJson(res, 200, { ok: true, service: "a-square-data-sub" });
-}
-req.method === "POST" && pathname === "/api/auth/register") {
+    if (req.method === "GET" && pathname === "/health") {
+      return sendJson(res, 200, { ok: true, service: "a-square-data-sub" });
+    }
+    if (req.method === "POST" && pathname === "/api/auth/register") {
       return await handleRegister(req, res);
     }
     if (req.method === "POST" && pathname === "/api/auth/login") {
@@ -631,6 +631,8 @@ req.method === "POST" && pathname === "/api/auth/register") {
       const userId = await requireAuth(req, res);
       if (!userId) return;
       return await handleGetWallet(req, res, userId);
+    }
+
     }
     if (req.method === "POST" && pathname === "/api/wallet/fund/initiate") {
       const userId = await requireAuth(req, res);
