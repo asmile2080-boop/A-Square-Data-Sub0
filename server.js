@@ -18,8 +18,8 @@ const {
   requireAdmin,
   sendJson,
 } = require("./auth");
-const paymentProvider = require(".paymentProvider");
-const vtuProvider = require(".vtuProvider");
+const paymentProvider = require("./paymentProvider");
+const vtuProvider = require("./vtuProvider");
 const { verifyPin, reserveFunds, settleTransaction } = require("./purchaseEngine");
 const { settleFunding } = require("./fundingEngine");
 const { startReconciliationLoop, reconcileNow } = require("./reconcile");
