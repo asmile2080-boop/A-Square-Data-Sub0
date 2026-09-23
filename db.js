@@ -114,7 +114,8 @@ function koboToNaira(kobo) {
 }
 
 const backend = process.env.DATABASE_URL
-  ? require("./db-adapters/postgres")(SCHEMA)
-  : require("./db-adapters/sqlite")(SCHEMA);
+  ? require("./postgres")(SCHEMA)
+  : require("./sqlite")(SCHEMA);
 
 module.exports = { db: backend, nairaToKobo, koboToNaira };
+
