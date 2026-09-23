@@ -1,0 +1,30 @@
+# Example systemd unit — an alternative to Docker if you're deploying
+# directly onto a Linux server (a $5-6/mo VPS is plenty for this app).
+#
+# 1. Copy this file to /etc/systemd/system/asquare.service
+# 2. Copy your .env file to /opt/asquare/.env (or wherever WorkingDirectory points)
+# 3. Run:
+#      sudo systemctl daemon-reload
+#      sudo systemctl enable asquare
+#      sudo systemctl start asquare
+#      sudo systemctl status asquare   # check it's running
+#      sudo journalctl -u asquare -f   # follow the logs live
+#
+# systemd restarts the app automatically if it crashes, and starts it
+# automatically on server reboot — the two things you actually need from
+# a process manager in production.
+
+[Unit]
+Description=A Square Data Sub backend
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/asquare
+ExecStart=/usr/bin/node --env-file=/opt/asquare/.env server.js
+Restart=on-failure
+RestartSec=5
+User=www-data
+
+[Install]
+WantedBy=multi-user.target

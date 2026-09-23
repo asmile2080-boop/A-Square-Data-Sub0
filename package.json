@@ -1,0 +1,18 @@
+{
+  "name": "asquare-data-sub-backend",
+  "version": "1.0.0",
+  "description": "A Square Data Sub - backend (airtime & data VTU app)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "start:env": "node --env-file=.env server.js",
+    "reset-db": "rm -f asquare.db asquare.db-shm asquare.db-wal && echo 'Local SQLite database reset.'"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "optionalDependencies": {
+    "pg": "^8.11.0"
+  }
+}

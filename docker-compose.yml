@@ -1,0 +1,48 @@
+# Spins up the app AND a real Postgres database together — the closest
+# thing to production you can run on your own laptop.
+#
+# Usage:
+#   docker compose up --build
+#   Open http://localhost:4000
+#
+# This is also how you'd sanity-check the Postgres adapter (db-adapters/postgres.js)
+# before deploying for real, since it can't be tested in the sandbox that
+# built it (no network access there).
+
+services:
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgres://asquare:asquare_dev_password@db:5432/asquare
+      DATABASE_SSL: "false" # local Docker Postgres has no SSL configured
+      # Uncomment to test real providers instead of mock:
+      # PAYMENT_PROVIDER: paystack
+      # PAYSTACK_SECRET_KEY: sk_test_xxxxx
+      # VTU_PROVIDER: vtpass
+      # VTU_API_KEY: xxxxx
+      # VTU_SECRET_KEY: xxxxx
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: asquare
+      POSTGRES_PASSWORD: asquare_dev_password
+      POSTGRES_DB: asquare
+    ports:
+      - "5432:5432" # expose so you can connect with psql/a GUI client to inspect data
+    volumes:
+      - asquare_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U asquare"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  asquare_pg_data:

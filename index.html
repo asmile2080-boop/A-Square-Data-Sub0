@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Square Data Sub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0F1225;
+    --surface: #171B33;
+    --surface-alt: #1F2444;
+    --gold: #F2B705;
+    --gold-dim: #7A6114;
+    --emerald: #34D399;
+    --danger: #F26D6D;
+    --text: #F5F5F7;
+    --muted: #9296B0;
+    --border: #2A2F52;
+    --heading-font: 'Space Grotesk', sans-serif;
+    --body-font: 'Inter', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #05060d;
+    font-family: var(--body-font);
+    padding: 20px 0;
+  }
+
+  .phone {
+    width: 380px;
+    height: 780px;
+    background: var(--bg);
+    border-radius: 42px;
+    border: 10px solid #05060d;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 140px; height: 22px;
+    background: #05060d;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    z-index: 10;
+  }
+
+  #screen {
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    color: var(--text);
+  }
+
+  h1, h2, h3 { font-family: var(--heading-font); margin: 0; color: var(--text); }
+  p { font-family: var(--body-font); margin: 0; color: var(--text); }
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    color: var(--text);
+    font-family: var(--body-font);
+    font-size: 15px;
+    outline: none;
+  }
+  input::placeholder { color: var(--muted); }
+
+  button { font-family: var(--body-font); cursor: pointer; }
+
+  .btn-primary {
+    width: 100%;
+    padding: 15px 0;
+    border-radius: 14px;
+    border: none;
+    background: var(--gold);
+    color: #1a1400;
+    font-family: var(--heading-font);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .btn-primary:disabled { background: var(--gold-dim); color: #5c4c14; cursor: not-allowed; }
+
+  .btn-link {
+    background: none; border: none; color: var(--muted);
+    font-size: 13px; padding: 6px 0;
+  }
+
+  .card {
+    background: linear-gradient(135deg, var(--surface-alt) 0%, #23284a 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  .error-banner {
+    background: rgba(242,109,109,0.12);
+    border: 1px solid rgba(242,109,109,0.4);
+    color: var(--danger);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    margin-bottom: 14px;
+  }
+
+  .bottom-nav {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around;
+    padding: 12px 10px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .nav-item {
+    background: none; border: none;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: var(--muted); font-size: 10px;
+  }
+  .nav-item.active { color: var(--gold); }
+  .nav-item svg { width: 19px; height: 19px; }
+
+  .tx-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .network-logo {
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: var(--heading-font); font-weight: 700; flex-shrink: 0;
+  }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(0,0,0,0.25);
+    border-top-color: #1a1400;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  ::-webkit-scrollbar { width: 0px; }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <div id="screen"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

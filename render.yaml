@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: a-square-data-sub
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.5.0
+      - key: PAYMENT_PROVIDER
+        value: mock
+      - key: ADMIN_PHONES
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_SSL
+        value: "true"

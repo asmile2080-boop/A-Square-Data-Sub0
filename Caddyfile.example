@@ -1,0 +1,20 @@
+# Example reverse-proxy config for Caddy (https://caddyserver.com) — the
+# simplest way to get free, automatic HTTPS in front of this app. Caddy
+# handles certificate provisioning and renewal (via Let's Encrypt)
+# entirely on its own; you don't touch certificates at all.
+#
+# 1. Point your domain's DNS A record at your server's IP first.
+# 2. Save this as Caddyfile (no extension) on your server.
+# 3. Replace the domain below with your real one.
+# 4. Run: caddy run
+#
+# That's the whole HTTPS setup — Caddy gets a certificate automatically
+# the first time it starts, and renews it automatically forever after.
+
+yourdomain.com {
+	reverse_proxy localhost:4000
+}
+
+# If you're also configuring the Paystack webhook, its public URL will be:
+#   https://yourdomain.com/api/webhooks/paystack
+# Paste that into your Paystack dashboard under Settings -> API Keys & Webhooks.
