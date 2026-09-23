@@ -632,7 +632,7 @@ const server = http.createServer(async (req, res) => {
       if (!userId) return;
       return await handleGetWallet(req, res, userId);
 
-    }
+    
     if (req.method === "POST" && pathname === "/api/wallet/fund/initiate") {
       const userId = await requireAuth(req, res);
       if (!userId) return;
