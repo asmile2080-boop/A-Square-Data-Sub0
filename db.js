@@ -118,4 +118,3 @@ const backend = process.env.DATABASE_URL
   : require("./sqlite")(SCHEMA);
 
 module.exports = { db: backend, nairaToKobo, koboToNaira };
-
