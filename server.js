@@ -590,7 +590,7 @@ async function handleGetTransactions(req, res, userId, url) {
 // Serves the plain HTML/JS app in ./public at the same origin as the API,
 // so the browser never has to deal with CORS. This is what makes
 // "the frontend talks to the backend" work with zero extra config.
-const PUBLIC_DIR = path.join(__dirname, "public");
+const PUBLIC_DIR = __dirname;
 const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css" };
 
 function serveStatic(req, res, pathname) {
