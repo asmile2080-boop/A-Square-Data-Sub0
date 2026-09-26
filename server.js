@@ -101,11 +101,24 @@ async function getWallet(userId) {
   return db.get("SELECT balance_kobo FROM wallets WHERE user_id = ?", [userId]);
 }
 
+// Helper function don gyara tsarin lambar waya
+function normalizePhone(phone) {
+  if (!phone) return "";
+  let cleaned = String(phone).replace(/\D/g, "");
+  if (cleaned.startsWith("234")) {
+    cleaned = "0" + cleaned.slice(3);
+  }
+  return cleaned;
+}
+
 // ---------- route handlers ----------
 
 async function handleRegister(req, res) {
   const body = await readJsonBody(req);
-  const { full_name, phone, email, password, pin } = body;
+  let { full_name, phone, email, password, pin } = body;
+
+  // Tsaftace lambar waya zuwa tsarin 080...
+  phone = normalizePhone(phone);
 
   if (!full_name || !phone || !password || !pin) {
     return sendJson(res, 400, {
@@ -129,9 +142,6 @@ async function handleRegister(req, res) {
   const userId = crypto.randomUUID();
   const now = new Date().toISOString();
 
-  // Two related inserts (user + wallet row) — wrap in a transaction so we
-  // never end up with a user that has no wallet, even if something fails
-  // mid-way.
   await db.transaction(async (tx) => {
     await tx.run(
       "INSERT INTO users (id, full_name, phone, email, password_hash, pin_hash, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -147,14 +157,16 @@ async function handleRegister(req, res) {
 
 async function handleLogin(req, res) {
   const body = await readJsonBody(req);
-  const { phone, password } = body;
+  let { phone, password } = body;
+
+  // Tsaftace lambar waya kafin a bincika a database
+  phone = normalizePhone(phone);
+
   if (!phone || !password) {
     return sendJson(res, 400, { error: "phone and password are required" });
   }
 
   let user = await db.get("SELECT * FROM users WHERE phone = ?", [phone]);
-  // Same error for "no such user" and "wrong password" — don't reveal
-  // which one it was, that helps attackers enumerate real phone numbers.
   if (!user || !verifySecret(password, user.password_hash)) {
     return sendJson(res, 401, { error: "Incorrect phone number or password" });
   }
@@ -168,6 +180,7 @@ async function handleLogin(req, res) {
     wallet_balance: koboToNaira(wallet.balance_kobo),
   });
 }
+
 
 async function handleGetWallet(req, res, userId) {
   const wallet = await getWallet(userId);
